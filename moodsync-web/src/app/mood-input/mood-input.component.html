@@ -1,3 +1,14 @@
-<div [formGroup] = "moodInputForm">
-    <input type="text" class="form-control" placeholder="Enter Your Mood" formControlName="moodText">
-</div>
+<div class="mood-input">
+    <label for="moodText" class="mood-label">How are you feeling today?</label>
+    <div class="input-group">
+      <input
+        type="text"
+        placeholder="Enter Your Mood"
+        formControlName="moodText"
+      />
+      <div>
+        <button type="button">Submit</button>
+      </div>
+    </div>
+  </div>
+

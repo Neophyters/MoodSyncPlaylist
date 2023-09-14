@@ -14,8 +14,13 @@ export class MoodInputComponent {
     private formBuilder: FormBuilder
   ) {
     this.moodInputForm = this.formBuilder.group({
-      
+      moodText: [''],
     })
+  }
+
+  handleMood() {
+    console.log(this.moodInputForm.controls['moodText'].value);
+    this.moodInputForm.controls['moodText'].setValue('');
   }
 
 }

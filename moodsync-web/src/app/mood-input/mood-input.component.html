@@ -1,14 +1,16 @@
 <div class="mood-input">
+  <form [formGroup]="moodInputForm">
     <label for="moodText" class="mood-label">How are you feeling today?</label>
     <div class="input-group">
       <input
         type="text"
         placeholder="Enter Your Mood"
         formControlName="moodText"
+        (keydown.enter)="handleMood()"
       />
       <div>
-        <button type="button">Submit</button>
+        <button type="button" (click)="handleMood()">Submit</button>
       </div>
     </div>
-  </div>
-
+  </form>
+</div>

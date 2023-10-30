@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SpotifyService } from '../spotify-service/spotify.service';
 
 @Component({
   selector: 'app-mood-input',
@@ -11,7 +12,8 @@ export class MoodInputComponent {
   moodInputForm: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private spotifyService: SpotifyService
   ) {
     this.moodInputForm = this.formBuilder.group({
       moodText: [''],
@@ -21,6 +23,6 @@ export class MoodInputComponent {
   handleMood() {
     console.log(this.moodInputForm.controls['moodText'].value);
     this.moodInputForm.controls['moodText'].setValue('');
+    
   }
-
 }

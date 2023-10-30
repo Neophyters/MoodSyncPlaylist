@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MoodInputComponent } from './mood-input/mood-input.component';
+import { HttpClientModule } from '@angular/common/http'
+import { SpotifyService } from './spotify-service/spotify.service';
 
 @NgModule({
   declarations: [
@@ -15,9 +17,10 @@ import { MoodInputComponent } from './mood-input/mood-input.component';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    HttpClientModule,
 
   ],
-  providers: [],
+  providers: [SpotifyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

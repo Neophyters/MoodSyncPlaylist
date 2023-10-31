@@ -23,6 +23,8 @@ export class MoodInputComponent {
   handleMood() {
     console.log(this.moodInputForm.controls['moodText'].value);
     this.moodInputForm.controls['moodText'].setValue('');
-    
+    this.spotifyService.getToken().subscribe((data) => {
+      console.log(data);
+    })
   }
 }

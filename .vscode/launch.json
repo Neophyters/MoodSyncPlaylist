@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MoodsyncAppApplication",
+            "request": "launch",
+            "mainClass": "MoodsyncAppApplication",
+            "projectName": "moodsync-app"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-MoodsyncAppApplication<moodsync-app>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

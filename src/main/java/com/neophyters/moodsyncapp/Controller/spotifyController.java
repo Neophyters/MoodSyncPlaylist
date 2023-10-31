@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 
 @RequestMapping("/spotify")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class spotifyController {
 
     private static final Logger logger = LoggerFactory.getLogger(spotifyController.class);
@@ -32,7 +34,7 @@ public class spotifyController {
     static spotifyService spotifyService = new spotifyService();
 
     @PostMapping("/token")
-    public static Token getToken() {
+    public static String getToken() {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Basic " + spotifyService.getSpotifyCredentials());
@@ -52,17 +54,17 @@ public class spotifyController {
         HttpEntity<String> request = new HttpEntity<>(bodyParam, headers);
 
         try {
-            ResponseEntity<Token> responseEntity = new RestTemplate().postForEntity(uri, request, Token.class);
+            ResponseEntity<String> responseEntity = new RestTemplate().postForEntity(uri, request, String.class);
 
             if (responseEntity.getStatusCode() == HttpStatus.OK) {
                 return responseEntity.getBody();
             } else {
                 logger.error("Error occurred while fetching token. Status code: " + responseEntity.getStatusCode());
-                return null;
+                return "Error occurred while fetching token. Status code: " + responseEntity.getStatusCode();
             }
         } catch (Exception e) {
             logger.error("An error occurred during the request: ", e);
-            return null;
+            return "An error occurred during the request: " + e;
         }
 
     }

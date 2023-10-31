@@ -1,4 +1,8 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.project.sourcePaths": [
+        ".",
+        "moodsync-app\\src\\main\\java\\com\\neophyters\\moodsyncapp"
+    ]
 }

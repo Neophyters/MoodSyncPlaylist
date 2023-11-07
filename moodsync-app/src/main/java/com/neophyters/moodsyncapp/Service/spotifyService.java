@@ -1,17 +1,19 @@
 package com.neophyters.moodsyncapp.Service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
 
 @Service
-public class spotifyService {
-
-    private String clientKey="70055440af4d4ee081707aa8ff83f28d";
-    private String clientSecret="6ae07eeb0ae74640ba96e6c77d3d467f";
+public class SpotifyService {
+    @Value("${spotify.clientKey}")
+    private String clientKey;
+    
+    @Value("${spotify.clientSecret}")
+    private String clientSecret;
 
     private String tokenURL = "https://accounts.spotify.com/api/token";
-
 
     public String getSpotifyCredentials() {
 
@@ -24,6 +26,10 @@ public class spotifyService {
 
     public String getTokenURL() {
         return this.tokenURL;
+    }
+
+    public String getCategoryPlaylistURL(String category) {
+        return "https://api.spotify.com/v1/browse/categories/" + category + "/playlists";
     }
 
 }

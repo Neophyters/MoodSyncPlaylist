@@ -8,33 +8,33 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.neophyters.moodsyncapp.Service.spotifyService;
-
-import ch.qos.logback.core.subst.Token;
-import lombok.extern.java.Log;
-
+import com.neophyters.moodsyncapp.Model.SpotifyToken;
+import com.neophyters.moodsyncapp.Service.SpotifyService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RequestMapping("/spotify")
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-public class spotifyController {
+public class SpotifyController {
 
-    private static final Logger logger = LoggerFactory.getLogger(spotifyController.class);
+    private static final Logger logger = LoggerFactory.getLogger(SpotifyController.class);
 
     @Autowired
-    static spotifyService spotifyService = new spotifyService();
+    SpotifyService spotifyService = new SpotifyService();
 
+    //Get Spotify API Token
     @PostMapping("/token")
-    public static String getToken() {
+    public String getToken() {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Basic " + spotifyService.getSpotifyCredentials());
@@ -54,10 +54,10 @@ public class spotifyController {
         HttpEntity<String> request = new HttpEntity<>(bodyParam, headers);
 
         try {
-            ResponseEntity<String> responseEntity = new RestTemplate().postForEntity(uri, request, String.class);
+            ResponseEntity<SpotifyToken> responseEntity = new RestTemplate().exchange(uri, HttpMethod.POST, request, SpotifyToken.class);
 
             if (responseEntity.getStatusCode() == HttpStatus.OK) {
-                return responseEntity.getBody();
+                return responseEntity.getBody().getAccess_token();
             } else {
                 logger.error("Error occurred while fetching token. Status code: " + responseEntity.getStatusCode());
                 return "Error occurred while fetching token. Status code: " + responseEntity.getStatusCode();
@@ -66,9 +66,36 @@ public class spotifyController {
             logger.error("An error occurred during the request: ", e);
             return "An error occurred during the request: " + e;
         }
-
     }
 
-    
+
+    //Get Playlist of a Category
+    @GetMapping("/{category}/playlist")
+    public String getCategoryPlaylist(@PathVariable String category) {
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + getToken());
+
+        URI uri;
+        try {
+            uri = new URI(spotifyService.getCategoryPlaylistURL(category));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        
+        ResponseEntity<String> responseEntity = new RestTemplate().exchange(uri, HttpMethod.GET, request, String.class);
+
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                return responseEntity.getBody();
+        } else {
+            logger.error("Error occurred while fetching playlist. Status code: " + responseEntity.getStatusCode());
+            return "Error occurred while fetching playlist. Status code: " + responseEntity.getStatusCode();
+        }
+        
+    }
 
 }

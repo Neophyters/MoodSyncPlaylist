@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Token } from '../interface/token';
+// import { Token } from '../interface/token';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,8 @@ export class SpotifyService {
   };
   constructor(private http:HttpClient) { } 
 
-  public getToken(): Observable<Token> {
-    return this.http.post<Token>(this.baseURL + "/spotify/token", null, this.HttpOptions);
+  public getToken(): Observable<any> {
+    return this.http.post<any>(this.baseURL + "/spotify/token", null, this.HttpOptions);
 
   }
 }

@@ -32,4 +32,19 @@ public class SpotifyService {
         return "https://api.spotify.com/v1/browse/categories/" + category + "/playlists";
     }
 
+    public String getSeveralBrowseCategoryURL(String limit, String offset) {
+
+        String url = "https://api.spotify.com/v1/browse/categories";
+
+        if (!limit.isEmpty()) {
+            url += "?limit=" + limit;
+        }
+
+        if(!offset.isEmpty()) {
+            url += "&offset=" + offset;
+        }
+
+        return url;
+    }
+
 }

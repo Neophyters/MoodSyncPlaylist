@@ -1,27 +1,65 @@
 .mood-input {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 15px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .mood-label {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 10px;
-    display: block;
-  }
-  
-  .input-group {
-    display: flex;
-  }
-  
-  .input-group .form-control {
-    flex: 1;
-    border: none;
-    border-radius: 0;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-  }
-  
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mood-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.mood-label {
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: bold;
+}
+
+.input-group {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.mood-text-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+
+.submit-btn {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+.playlist-link a {
+  display: block;
+  margin-top: 1rem;
+  text-align: center;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.playlist-link a:hover {
+  text-decoration: underline;
+}
+
+.mood-select select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+}

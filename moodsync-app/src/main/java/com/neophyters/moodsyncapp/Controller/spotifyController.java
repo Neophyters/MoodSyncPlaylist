@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,6 +32,32 @@ public class SpotifyController {
 
     @Autowired
     SpotifyService spotifyService = new SpotifyService();
+
+    public String getSpotifyData(String url) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + getToken());
+        
+        URI uri;
+        try {
+            uri = new URI(url);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            logger.error("URI Syntax Exception", e);
+            return null;
+        }
+
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        ResponseEntity<String> responseEntity = new RestTemplate().exchange(uri, HttpMethod.GET, request, String.class);
+
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                return responseEntity.getBody();
+        } else {
+            logger.error("Error occurred while fetching playlist. Status code: " + responseEntity.getStatusCode());
+            return "Error occurred while fetching playlist. Status code: " + responseEntity.getStatusCode();
+        }
+    }
 
     //Get Spotify API Token
     @PostMapping("/token")
@@ -72,30 +99,12 @@ public class SpotifyController {
     //Get Playlist of a Category
     @GetMapping("/{category}/playlist")
     public String getCategoryPlaylist(@PathVariable String category) {
-        
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + getToken());
-
-        URI uri;
-        try {
-            uri = new URI(spotifyService.getCategoryPlaylistURL(category));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        HttpEntity<String> request = new HttpEntity<>(headers);
-
-        
-        ResponseEntity<String> responseEntity = new RestTemplate().exchange(uri, HttpMethod.GET, request, String.class);
-
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-                return responseEntity.getBody();
-        } else {
-            logger.error("Error occurred while fetching playlist. Status code: " + responseEntity.getStatusCode());
-            return "Error occurred while fetching playlist. Status code: " + responseEntity.getStatusCode();
-        }
-        
+        return getSpotifyData(spotifyService.getCategoryPlaylistURL(category));
+    }
+    
+    @GetMapping("/browse/categories")
+    public String getSeveralBrowseCategory(@RequestParam String limit, @RequestParam String offset) {
+        return getSpotifyData(spotifyService.getSeveralBrowseCategoryURL(limit, offset));
     }
 
 }

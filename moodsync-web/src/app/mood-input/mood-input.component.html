@@ -1,5 +1,5 @@
 <div class="mood-input">
-  <form [formGroup]="moodInputForm">
+  <form [formGroup]="moodInputForm" class="mood-form">
     <label for="moodText" class="mood-label">How are you feeling today?</label>
     <div class="input-group">
       <input
@@ -7,10 +7,19 @@
         placeholder="Enter Your Mood"
         formControlName="moodText"
         (keydown.enter)="handleMood()"
+        class="mood-text-input"
       />
-      <div>
-        <button type="button" (click)="handleMood()">Submit</button>
-      </div>
+      <button type="button" (click)="handleMood()" class="submit-btn">Submit</button>
+    </div>
+    <div *ngIf="playlistLink" class="playlist-link">
+      <a [href]="playlistLink">Click here to go to the page</a>
+    </div>
+    <div class="mood-select">
+      <select formControlName="selectedMood" >
+        <option *ngFor="let option of moodOptions" [ngValue]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
     </div>
   </form>
 </div>
